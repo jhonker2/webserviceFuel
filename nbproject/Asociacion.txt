@@ -1,0 +1,10 @@
+controlador                            Ventana
+Empresa                                Login
+Login
+
+
+Vendedor                               Ventas
+Caja
+Ubicacion
+busquedacliente
+busquedaproducto

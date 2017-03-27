@@ -1,0 +1,474 @@
+<style>
+    .marcado
+    {
+    border-color: black;
+    border-style: groove;
+    border-width: 3px; 
+    }
+    
+</style>       
+
+<link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+
+         <div class="box box-info">
+                <div class="box-header">
+                    <a class="btn btn-info pull-right" style="margin-left: 1em" onclick="$('#myModalBusquedaProveedor').modal('show');"><i class="fa fa-search"></i></a>
+                      <a class="btn btn-danger pull-right" style="margin-left: 1em" ng-show="editando" onclick="$('#myModal').modal('show');" ><i class="fa fa-remove" ></i></a>
+                      <button type="button" ng-click="ManejarBodega()" class="btn btn-primary  pull-right" style="margin-left: 1em" ng-show="ptos.length>1"><i class="fa fa-save"></i></button>
+                     <a class="btn btn-success pull-right" style="margin-left: 1em" ng-click="Limpiar()"><i class="fa fa-file-o"></i></a>
+                  <h3 class="box-title" id="titulo">Compra</h3>
+                </div>
+                <div class="box-body">
+                 
+                 <form class="form-horizontal"  id="form">
+                  <div class="box-body">
+                   
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Documento</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="codigo" placeholder="Codigo"  ng-model="codigo" my-enter="Codigo_Cambio()">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Proveedor</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="codigo" placeholder="Proveedor"  ng-model="proveedor" my-enter="Proveedor_Cambio()">
+                      </div>
+                    </div>
+                      
+                      <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Cedula/RUC</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="codigo" placeholder="Cedula"  ng-model="cedula" disabled>
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Proveedor</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="codigo" placeholder="Proveedor"  ng-model="nombre" disabled>
+                      </div>
+                    </div>
+                      
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-light-blue progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                      <span class="sr-only">100% Complete (warning)</span>
+                    </div>
+                  </div>
+                      
+                      
+                  <div class="form-group">
+                    <label for="codigo" class="col-sm-2 control-label">Fecha</label>
+                    <div class="input-group col-sm-10">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" id="reservation" value="">
+                    </div><!-- /.input group -->
+                  </div><!-- /.form group -->
+                  
+                   <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Referencia</label>
+                      <div class="col-sm-3">
+                          <input type="text"  class="form-control" id="estacion" placeholder="Estacion"  ng-model="estacion" >
+                      </div>
+                      <div class="col-sm-3">
+                          <input type="text"  class="form-control" id="punto" placeholder="Punto"  ng-model="punto" >
+                      </div>
+                      <div class="col-sm-3">
+                          <input type="text"  class="form-control" id="referencia" placeholder="Referencia"  ng-model="referencia" >
+                      </div>
+                 </div>
+                      
+                  <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Autorizacion</label>
+                      <div class="col-sm-10">
+                          <input type="text"  class="form-control" id="autorizacion" placeholder="Autorizacion"  ng-model="autorizacion">
+                      </div>
+                 </div>
+                  
+                    <div class="form-group">
+                       <label for="aplicacion" class="col-sm-2 control-label">Retenciones</label>
+                      <div class="col-sm-5">
+                        <div class="checkbox">
+                          <label>
+                              <input type="checkbox" ng-model="iva" ng-checked="iva"> Iva
+                          </label>
+                        </div>
+                      </div>
+                        <div class="col-sm-5">
+                        <div class="checkbox">
+                          <label>
+                              <input type="checkbox" ng-model="fuente" ng-checked="fuente"> Fuente
+                          </label>
+                        </div>
+                      </div>
+                    </div>  
+                      
+                  
+                      
+                <!------------------------------------------------------------------------------------------->  
+              
+               <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Items</h3>
+                  <div class="box-tools pull-right">
+                      <button class="btn btn-box-tool" ng-show="index==ptos.length-1" ng-click="Limpiar_Edicion()"><i class="fa fa-file-o"></i></button>
+                    <button class="btn btn-box-tool"  ng-show="index!=ptos.length-1"  id="m_eliminar" onclick="$('#myModalEliminarProducto').modal('show');"><i class="fa fa-trash-o"></i></button>
+                    <button class="btn btn-box-tool" onclick="$('#myModalBusqueda').modal('show');" ><i class="fa fa-search"></i></button>
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                 
+                    
+                    
+                                <table class="table table-bordered  table-striped">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cod</th>
+                                            <th>Cant</th>
+                                          
+                                            <th>Descripcion</th>
+                                            <th>BOD</th>
+                                            <th>Costo</th>
+                                            <th>DESC</th>
+                                            <th>Iva</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in ptos" ng-click="Editar(t,$index);" ng-class="{'marcado':index==$index&&$index!=ptos.length-1}" ng-style="t.producto==codigo_editado?{ 'background-color': '#91C7E6' } : { 'background-color': '#f9f9f9' }">
+                                             <td><input data-c-cod="{{$index}}" type="text" ng-disabled="$index!=ptos.length-1" class="form-control" id="codigo" placeholder="Codigo"  ng-model="t.producto"  my-enter="ProductoxCodigo($index)"  ng-change="Vigilar()"></td>
+                                             <td><input  data-c_id="{{$index}}"  numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Cantidad" ng-model="t.cantidad"  my-enter="ManejarProducto($index)" > </td>
+                                            
+                                             <td>{{t.descripcion1}} </td>
+                                             <td> 
+                                                 <select ng-model="ubicacion" class="form-control" required >
+                                                         <option ng-repeat="v in ubicaciones" value="{{v.codigo}}" ng-selected="ubicacion_seleccionada">{{v.ubicacion}}</option>
+                                                 </select> 
+                                             </td>
+                                             <td> <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Valor" ng-model="t.valor" > </td>
+                                             <td> <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Descuento" ng-model="t.descuento" ></td>
+                                             <td><input type="checkbox" ng-model="t.iva_producto" ng-checked="t.iva_producto"  > </td>
+                                             <td style="text-align: right;">{{t.cantidad*t.valor | number:4}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                    
+                    
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+              
+                <!------------------------------------------------------------------------------------------->      
+                              
+                      <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="SubTotal" class="direct-chat-name badge bg-light-blue pull-right">{{_Subtotal()}}</span>
+                        <span class="direct-chat-timestamp pull-left ">SubTotal</span>
+                      </div>
+                
+                       <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="Descuento" class="direct-chat-name badge bg-light-blue pull-right">{{_Descuento()}}</span>
+                        <span class="direct-chat-timestamp pull-left ">Descuento</span>
+                      </div>
+                    
+                      <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="Iva" class="direct-chat-name badge bg-light-blue pull-right">{{_Iva()}}</span>
+                        <span class="direct-chat-timestamp pull-left">Iva</span>
+                      </div>
+                
+                    
+                      <div class="direct-chat-info clearfix">
+                        <span   style="font-size: 15px;font-weight: bold;"  data-toggle="tooltip" title="Total" class="direct-chat-name badge bg-light-blue-active pull-right">{{_Total()}}</span>
+                        <span  style="font-size: 15px;font-weight: bold;" class="direct-chat-timestamp pull-left">Total</span>
+                      </div>
+
+                    <!------------------------------------------------------------------------------------------->         
+
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    
+                    
+                  </div><!-- /.box-footer -->
+                </form>
+                    
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" style='visibility: hidden'>
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+              
+          <div class="modal fade" id="myModalBusqueda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog" style="width: 80%">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Buscar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                        <div class="box-body">
+ 
+                   
+                        <div class="box box-info">
+                            <div class="box-header">
+                                
+                            </div>
+                                  <div class="box-body">    
+                                         <div class="input-group">
+                                            <span class="input-group-addon" ng-click="Buscar()"><i class="fa fa-search"></i></span>
+                                             <input type="text" class="form-control" placeholder="Nombre" ng-model="nombre_busqueda" my-enter="Buscar()" />
+                                         </div>
+                              
+                                             <form class="form-horizontal" style="margin-top: 1em">
+                  
+                            <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Dato</label>
+                      <div class="col-sm-10">
+                      <select ng-model="criterio" class="form-control" required>
+                          <option ng-repeat="v in grupos" value="{{v.codigo}}" ng-selected="criterio_seleccionado==criterio">{{v.nombre}}</option>
+                      </select>
+                      </div>
+                    </div>
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Ubicacion</label>
+                      <div class="col-sm-10">
+                      <select ng-model="ubicacion" class="form-control" required>
+                          <option ng-repeat="v in ubicaciones" value="{{v.codigo}}" ng-selected="ubicacion_seleccionada">{{v.ubicacion}}</option>
+                      </select>
+                      </div>
+                    </div>  
+                  
+                            <div class="box-footer table-responsive">
+                    
+                                <table class="table table-bordered  table-striped">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cod</th>
+                                            <th>Exist</th>
+                                            <th>Barra</th>
+                                            <th style="width: 25em">Descripcion</th>
+                                            <th>Precio 1</th>
+                                            <th>Precio 2</th>
+                                            <th>Precio 3</th>
+                                            <th>Precio 4</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in productos" ng-click="Establecer(t);">
+                                             <td>{{t.codigo}} </td>
+                                             <td>{{t.existencia|number:0}} </td>
+                                             <td>{{t.codigo_barra}} </td>
+                                             <td style="width: 25em">{{t.descripcion1}} </td>
+                                             <td>{{t.pvp1| number:4}} </td>
+                                             <td>{{t.pvp2| number:4}} </td>
+                                             <td>{{t.pvp3| number:4}} </td>
+                                             <td>{{t.pvp4| number:4}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </form>
+                            
+                                  </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay" ng-style="peticionando?{ 'visibility': 'visible' } : { 'visibility': 'hidden' }">
+                                 <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                <!-- end loading -->
+                        </div>
+                            
+                        </div><!-- /.box-body -->
+                         
+                      </div>
+                  </div>
+              </div>
+          </div>      
+        
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          
+                          <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                              <div class="box-body">
+                                 <h3> Desea eliminar?</h3>
+                                 
+                              </div><!-- /.box-body -->
+                         
+                      </div>
+                      <div class="modal-footer">
+                         
+                          <button type="button" ng-click="Eliminar()" class="btn btn-success"  data-dismiss="modal"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Eliminar</button>
+
+
+                          <button type="button" class="btn btn-success" style="background-color: #00C0EF" data-dismiss="modal"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Cancelar</button>
+
+                      </div>
+                  </div>
+              </div>
+        </div>
+  
+          <div class="modal fade" id="myModalEliminarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          
+                          <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                              <div class="box-body">
+                                 <h3> Desea eliminar este Item?</h3>
+                                 
+                              </div><!-- /.box-body -->
+                         
+                      </div>
+                      <div class="modal-footer">
+                         
+                          <button type="button" ng-click="EliminarProducto()" class="btn btn-success"  data-dismiss="modal"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Eliminar</button>
+
+
+                          <button type="button" class="btn btn-success" style="background-color: #00C0EF" data-dismiss="modal"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Cancelar</button>
+
+                      </div>
+                  </div>
+              </div>
+        </div>
+              
+           <div class="modal fade" id="myModalBusquedaProveedor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+               <div class="modal-dialog" style="width: 80%">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Buscar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                        <div class="box-body">
+ 
+                   
+                        <div class="box box-info">
+                            <div class="box-header">
+                                
+                            </div>
+                                  <div class="box-body">    
+                                         <div class="input-group">
+                                            <span class="input-group-addon" ng-click="BuscarProveedor()"><i class="fa fa-search"></i></span>
+                                             <input type="text" class="form-control" placeholder="Nombre" ng-model="nombre_busqueda" my-enter="BuscarProveedor()" />
+                                         </div>
+                              
+                                             <form class="form-horizontal" style="margin-top: 1em">
+                  
+                         
+                  
+                            <div class="box-footer table-responsive">
+                    
+                                <table class="table table-bordered  table-striped">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cedula</th>
+                                            <th>Codigo</th>
+                                            <th style="width: 25em">Nombre</th>
+                                            <th style="width: 25em">Direccion</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in provee" ng-click="EstablecerProveedor(t);">
+                                             <td>{{t.cedula_ruc}} </td>
+                                             <td>{{t.codigo}} </td>
+                                             <td style="width: 25em">{{t.nombre}} </td>
+                                             <td style="width: 25em">{{t.direccion1}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </form>
+                            
+                                  </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay" ng-style="peticionando?{ 'visibility': 'visible' } : { 'visibility': 'hidden' }">
+                                 <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                <!-- end loading -->
+                        </div>
+                            
+                        </div><!-- /.box-body -->
+                         
+                      </div>
+                  </div>
+              </div>
+          </div> 
+           
+      <script src="plugins/daterangepicker/daterangepicker.js"></script>    
+      <script type="text/javascript">
+      $(function () {
+          
+          var hoy=new Date();
+          var despues=hoy.setDate(hoy.getDate() + parseInt(localStorage.getItem("Dias")));
+          despues= new Date(despues).toLocaleString().split(",")[0]; 
+         
+          hoy=new Date().toLocaleString().split(",")[0];
+         
+         $('#reservation').daterangepicker();
+         $('#reservation').val(hoy+" - "+despues);
+         $('#reservation').data('daterangepicker').setStartDate(hoy);
+         $('#reservation').data('daterangepicker').setEndDate(despues);
+         
+         $('.breadcrumb').html('<li><i class="fa fa-money"></i>Facturacion</li>\n\
+                                <li><i class="fa fa-euro"></i>Compras</li>\n\
+                                <li>Registro de compra</li>');
+        //--------------------------------------------------------------------------------
+        
+        $('#estacion').keypress(function(key)
+        {  
+          var g=$('#estacion').val();    
+             if(g.length>=2)
+                $('#estacion').val(g[0]+g[1]);
+        });
+        
+        $('#punto').keypress(function(key)
+        {  
+          var g=$('#punto').val();    
+             if(g.length>=2)
+                $('#punto').val(g[0]+g[1]);
+        });
+        
+         $('#referencia').keypress(function(key)
+        {  
+          var g=$('#referencia').val();    
+             if(g.length>=9)
+                $('#referencia').val(g[0]+g[1]+g[2]+g[3]+g[4]+g[5]+g[6]+g[7]+g[8]);
+        });
+        
+         $('#autorizacion').keypress(function(key)
+        {  
+          var g=$('#autorizacion').val();    
+             if(g.length>=48)
+                $('#autorizacion').val(g[0]+g[1]+g[2]+g[3]+g[4]+g[5]+g[6]+g[7]+g[8]+g[9]+g[10]+
+                                           g[11]+g[12]+g[13]+g[14]+g[15]+g[16]+g[17]+g[18]+g[19]+g[20]+
+                                           g[21]+g[22]+g[23]+g[24]+g[25]+g[26]+g[27]+g[28]+g[29]+g[30]+
+                                           g[31]+g[32]+g[33]+g[34]+g[35]+g[36]+g[37]+g[38]+g[39]+g[40]+
+                                           g[41]+g[42]+g[43]+g[44]+g[45]+g[46]+g[47]);
+                                       
+        });
+        
+         $('.applyBtn').text('Aplicar');
+        $('.cancelBtn').text('Cancelar');
+        $('[for="daterangepicker_start"]').text('Desde');
+        $('[for="daterangepicker_end"]').text('Hasta');
+        
+      });
+     </script>

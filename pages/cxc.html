@@ -1,0 +1,50 @@
+    
+              <div class="box box-info">
+                <div class="box-header">
+                  <h3 class="box-title">Cuentas por Cobrar</h3>
+                </div>
+                <div class="box-body">
+                 
+                  <div class="input-group">
+                            <form class="form-horizontal" style="margin-top: 1em">
+                                <table class="table table-bordered  table-striped" ng-show="productos.length>0">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th style="text-align: right">Saldo</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in productos" ng-click="Establecer(t);">
+                                             <td>{{t.cod_cliente}} </td>
+                                             <td>{{t.nombre}} </td>
+                                             <td style="text-align: right">{{t.saldo | number:4}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                          
+                            </form>
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" ng-show="peticionando">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+              
+       <script type="text/javascript">
+                   $('.breadcrumb').html('<li><i class="fa fa-cc-visa"></i>Cartera</li>\n\
+                                <li><i class="fa fa-thumbs-o-up"></i>Cuentas por Cobrar</li>\n\
+                                <li><i class="fa fa-newspaper-o"></i>Informes</li>\n\
+                                <li>Facturas x Cobrar</li>');
+                  
+              </script>     
+        
+
+      
+
+            

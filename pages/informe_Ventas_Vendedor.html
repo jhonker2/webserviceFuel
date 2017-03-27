@@ -1,0 +1,92 @@
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+
+         <div class="box box-info">
+                <div class="box-header">
+                    
+                    <button type="button" ng-disabled="peticionando" ng-click="ProcesarFinal()" class="btn btn-primary  pull-right" style="margin-left: 1em" ><i class="fa fa-bolt"></i></button>
+                </div>
+                <div class="box-body">
+                 
+                 <form class="form-horizontal"  id="form">
+                  <div class="box-body">
+  
+                  <div class="form-group">
+                    <label for="codigo" class="col-sm-2 control-label">Fecha</label>
+                    <div class="input-group col-sm-10">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" id="reservation" value="">
+                    </div><!-- /.input group -->
+                  </div><!-- /.form group -->
+                  
+                  
+                  
+
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    
+                   <div class="table-responsive no-padding">
+                      <table class="table table-hover table-striped" ng-show="ptos.length>0">
+                                 
+                                         <tr style="background-color: #00C0EF">
+                                            <th>Descripcion</th>
+                                            <th style="text-align: right;">Cantidad</th>
+                                            <th style="text-align: right;">Total</th>
+                                            <th style="text-align: right;">%</th>
+                                        </tr>
+
+                                        <tr data-ng-repeat="t in ptos">
+                                             <td>{{t.vendedor}} </td>
+                                             <td style="text-align: right;">{{t.num_pedidos| number:2}} </td>
+                                             <td style="text-align: right;">{{t.total| number:4}} </td>
+                                             <td style="text-align: right;">{{t.porcentaje| number:4}} </td>
+                                        </tr>
+                                    
+                    </table>
+                   </div> 
+                      
+                  </div><!-- /.box-footer -->
+                </form>
+                    
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" ng-show="peticionando">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+      <!----------------------------------------------------------------------------------------------------------------------------------------->
+      
+       
+           
+      <script src="plugins/daterangepicker/daterangepicker.js"></script>    
+      <script type="text/javascript">
+      $(function () {
+          
+          var hoy=new Date();
+          var despues=hoy.setDate(hoy.getDate() + parseInt(localStorage.getItem("Dias")));
+          despues= new Date(despues).toLocaleString().split(",")[0]; 
+         
+          hoy=new Date().toLocaleString().split(",")[0];
+         
+         $('#reservation').daterangepicker();
+         $('#reservation').val(hoy+" - "+despues);
+         $('#reservation').data('daterangepicker').setStartDate(hoy);
+         $('#reservation').data('daterangepicker').setEndDate(despues);
+         
+         
+          $('.breadcrumb').html('<li><i class="fa fa-money"></i>Facturacion</li>\n\
+                                <li><i class="fa fa-dollar"></i>Ventas</li>\n\
+                                <li><i class="fa fa-newspaper-o"></i>Informes</li>\n\
+                                <li>Ventas por Vendedor</li>');
+        
+         $('.applyBtn').text('Aplicar');
+        $('.cancelBtn').text('Cancelar');
+        $('[for="daterangepicker_start"]').text('Desde');
+        $('[for="daterangepicker_end"]').text('Hasta');
+         
+      });
+     </script>

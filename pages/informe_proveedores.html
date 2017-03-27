@@ -1,0 +1,56 @@
+    
+              <div class="box box-info">
+                <div class="box-header">
+                  <h3 class="box-title">Proveeedor</h3>
+                </div>
+                <div class="box-body">
+                 
+                  <div class="input-group">
+                                            <span class="input-group-addon" ng-click="Buscar()"><i class="fa fa-search"></i></span>
+                                             <input type="text" class="form-control" placeholder="Nombre" ng-model="nombre_busqueda" my-enter="Buscar()"/>
+                                         </div>
+                              
+                                             <form class="form-horizontal" style="margin-top: 1em">
+                                                 <table class="table table-bordered  table-striped" ng-show="productos.length>0">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cedula</th>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>Direccion</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in productos" ng-click="Establecer(t);">
+                                             <td>{{t.cedula_ruc}} </td>
+                                             <td>{{t.codigo}} </td>
+                                             <td>{{t.nombre}} </td>
+                                             <td>{{t.direccion1}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                          
+                            </form>
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" ng-show="peticionando">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+              
+       <script type="text/javascript">
+                   $('.breadcrumb').html('<li><i class="fa fa-cc-visa"></i>Cartera</li>\n\
+                                <li><i class="fa fa-thumbs-o-down"></i>Cuentas por Pagar</li>\n\
+                                <li>Informe de Proveedores</li>');
+                  
+              </script>     
+        
+
+      
+
+            

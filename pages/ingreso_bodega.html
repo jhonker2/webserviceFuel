@@ -1,0 +1,295 @@
+    
+              <div class="box box-info">
+                <div class="box-header">
+                     <a class="btn btn-danger pull-right" style="margin-left: 1em" ng-show="editando" onclick="$('#myModal').modal('show');" ><i class="fa fa-remove" ></i></a>
+                      <button type="button" ng-click="ManejarBodega()" class="btn btn-primary  pull-right" style="margin-left: 1em" ng-show="ptos.length>0"><i class="fa fa-save"></i></button>
+                     <a class="btn btn-success pull-right" style="margin-left: 1em" ng-click="Limpiar()"><i class="fa fa-file-o"></i></a>
+                  <h3 class="box-title" id="titulo"></h3>
+                </div>
+                <div class="box-body">
+                 
+                 <form class="form-horizontal"  id="form">
+                  <div class="box-body">
+                   
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Documento</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="codigo" placeholder="Codigo"  ng-model="codigo" my-enter="Codigo_Cambio()">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="barra" class="col-sm-2 control-label">Fecha</label>
+                      <div class="col-sm-10">
+                          <input type="date" class="form-control" id="barra" placeholder="Fecha" ng-model="fecha" value="{{fecha}}" disabled>
+                      </div>
+                    </div>
+                      
+                <!------------------------------------------------------------------------------------------->  
+              
+                <div class="box box-primary direct-chat direct-chat-primary" id="edicion">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Items</h3>
+                  <div class="box-tools pull-right">
+                   
+                    <span data-toggle="tooltip" title="Productos" class="badge bg-light-blue">{{ptos.length}}</span>
+                    <span data-toggle="tooltip" title="Total" id="m_total" class="badge bg-green" ng-show="codigo_editado!=''">{{cantidad*valor | number : 4}}</span>
+                    <button class="btn btn-box-tool" id="m_eliminar" ng-show="codigo_editado!=''" onclick="$('#myModalEliminarProducto').modal('show');"><i class="fa fa-remove"></i></button>
+                    <button class="btn btn-box-tool" onclick="$('#myModalBusqueda').modal('show');" ><i class="fa fa-search"></i></button>
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-box-tool" data-toggle="tooltip" title="Productos" data-widget="chat-pane-toggle" ng-click="Limpiar_Edicion()"><i class="fa fa-cubes"></i></button>
+                    
+                  </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <!-- Conversations are loaded here -->
+                  <div class="direct-chat-messages">
+                     
+                    
+                      <div ng-repeat="t in ptos" ng-click="Editar(t)" style="padding-top:0.1em;  border-bottom-style: inset;border-bottom-color: black;border-bottom-width: thin;">
+                       
+                          <div class="direct-chat-info clearfix">
+                           <span  class="direct-chat-name badge bg-light-blue pull-right">{{t.cantidad}} x {{t.valor}}</span>
+                           <span  class="direct-chat-timestamp pull-left "> {{t.descripcion1}}</span>
+                          </div>
+                    
+                          <div class="direct-chat-info clearfix">
+                           <span  data-toggle="tooltip" title="Total" class="direct-chat-name badge bg-light-blue-active pull-right">{{t.cantidad*t.valor | number:4}}</span>
+                           <span  data-toggle="tooltip" title="Codigo" class="direct-chat-timestamp pull-left"><i>{{t.producto}}</i></span>
+                          </div>
+                       
+                     </div>
+                      
+                      
+                  </div><!--/.direct-chat-messages-->
+
+                  <!-- Contacts are loaded here -->
+                  <div class="direct-chat-contacts">
+                  
+                   <div class="box-body" style="margin-top: 0.5em;margin-right: 0.5em;">
+                      
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Codigo</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="codigo" placeholder="Codigo"  ng-model="codigo_editado"  my-enter="ProductoxCodigo()">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="descripcion" placeholder="Descripcion" ng-model="descripcion" disabled>
+                      </div>
+                    </div>
+                    
+                     <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Ubicacion</label>
+                      <div class="col-sm-10">
+                      <select ng-model="ubicacion" class="form-control" required>
+                          <option ng-repeat="v in ubicaciones" value="{{v.codigo}}" ng-selected="ubicacion_seleccionada">{{v.ubicacion}}</option>
+                      </select>
+                      </div>
+                    </div>  
+                      
+                    <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">Cantidad</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Cantidad" ng-model="cantidad"  ng-change="Cambio_Cantidad()" my-enter="ManejarProducto()" ng-disabled="codigo_editado==''">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">Valor</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Valor" ng-model="valor"  ng-change="Cambio_Valor()" >
+                      </div>
+                    </div>
+                
+                  
+                  </div><!-- /.box-body -->
+     
+                  </div><!-- /.direct-chat-pane -->
+                </div><!-- /.box-body -->
+               
+              </div>
+              
+                <!------------------------------------------------------------------------------------------->      
+                              
+                      <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="SubTotal" class="direct-chat-name badge bg-light-blue pull-right">{{_Subtotal()}}</span>
+                        <span class="direct-chat-timestamp pull-left ">SubTotal</span>
+                      </div>
+                    
+                      <div class="direct-chat-info clearfix">
+                        <span style="font-size: 15px;font-weight: bold;" data-toggle="tooltip" title="Total" class="direct-chat-name badge bg-light-blue-active pull-right">{{_Subtotal()}}</span>
+                        <span style="font-size: 15px;font-weight: bold;" class="direct-chat-timestamp pull-left">Total</span>
+                      </div>
+
+                    <!------------------------------------------------------------------------------------------->         
+
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    
+                     
+                  </div><!-- /.box-footer -->
+                </form>
+                    
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" style='visibility: hidden'>
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+              
+          <div class="modal fade" id="myModalBusqueda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Buscar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                        <div class="box-body">
+ 
+                   
+                        <div class="box box-info">
+                            <div class="box-header">
+                                
+                            </div>
+                                  <div class="box-body">    
+                                         <div class="input-group">
+                                            <span class="input-group-addon" ng-click="Buscar()"><i class="fa fa-search"></i></span>
+                                             <input type="text" class="form-control" placeholder="Nombre" ng-model="nombre_busqueda" my-enter="Buscar()" />
+                                         </div>
+                              
+                                             <form class="form-horizontal" style="margin-top: 1em">
+                  
+                            <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Dato</label>
+                      <div class="col-sm-10">
+                      <select ng-model="criterio" class="form-control" required>
+                          <option ng-repeat="v in grupos" value="{{v.codigo}}" ng-selected="criterio_seleccionado==criterio">{{v.nombre}}</option>
+                      </select>
+                      </div>
+                    </div>
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Ubicacion</label>
+                      <div class="col-sm-10">
+                      <select ng-model="ubicacion" class="form-control" required>
+                          <option ng-repeat="v in ubicaciones" value="{{v.codigo}}" ng-selected="ubicacion_seleccionada">{{v.ubicacion}}</option>
+                      </select>
+                      </div>
+                    </div>  
+                  
+                            <div class="box-footer table-responsive">
+                    
+                                <table class="table table-bordered  table-striped">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cod</th>
+                                            <th>Exist</th>
+                                            <th>Barra</th>
+                                            <th>Descripcion</th>
+                                            <th>Precio 1</th>
+                                            <th>Precio 2</th>
+                                            <th>Precio 3</th>
+                                            <th>Precio 4</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in productos" ng-click="Establecer(t);">
+                                             <td>{{t.codigo}} </td>
+                                             <td>{{t.existencia|number:0}} </td>
+                                             <td>{{t.codigo_barra}} </td>
+                                             <td>{{t.descripcion1}} </td>
+                                             <td>{{t.pvp1| number:4}} </td>
+                                             <td>{{t.pvp2| number:4}} </td>
+                                             <td>{{t.pvp3| number:4}} </td>
+                                             <td>{{t.pvp4| number:4}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </form>
+                            
+                                  </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay" ng-style="peticionando?{ 'visibility': 'visible' } : { 'visibility': 'hidden' }">
+                                 <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                <!-- end loading -->
+                        </div>
+                            
+                        </div><!-- /.box-body -->
+                         
+                      </div>
+                  </div>
+              </div>
+          </div>      
+        
+
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          
+                          <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                              <div class="box-body">
+                                 <h3> Desea eliminar?</h3>
+                                 
+                              </div><!-- /.box-body -->
+                         
+                      </div>
+                      <div class="modal-footer">
+                         
+                          <button type="button" ng-click="Eliminar()" class="btn btn-success"  data-dismiss="modal"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Eliminar</button>
+
+
+                          <button type="button" class="btn btn-success" style="background-color: #00C0EF" data-dismiss="modal"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Cancelar</button>
+
+                      </div>
+                  </div>
+              </div>
+        </div>
+  
+         <div class="modal fade" id="myModalEliminarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          
+                          <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                              <div class="box-body">
+                                 <h3> Desea eliminar este Item?</h3>
+                                 
+                              </div><!-- /.box-body -->
+                         
+                      </div>
+                      <div class="modal-footer">
+                         
+                          <button type="button" ng-click="EliminarProducto()" class="btn btn-success"  data-dismiss="modal"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Eliminar</button>
+
+
+                          <button type="button" class="btn btn-success" style="background-color: #00C0EF" data-dismiss="modal"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Cancelar</button>
+
+                      </div>
+                  </div>
+              </div>
+        </div>
+           
+              <script type="text/javascript">
+                  $('.breadcrumb').html('<li><i class="fa fa-archive"></i>Inventario</li>\n\
+                                         <li><i class="fa fa-exchange"></i>Movimientos</li>\n\
+                                         <li>Ingreso de Bodega</li>');
+              </script>

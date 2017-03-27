@@ -1,0 +1,64 @@
+{
+    "data": [{
+            "documento": "9",
+            "tipo": "FC",
+            "ubicacion": "",
+            "r_iva": "",
+            "emision": "2010-06-03",
+            "vence": "2010-06-24",
+            "dias": "0",
+            "total": 39.178,
+            "devolucion": "",
+            "abono": "39.18",
+            "saldo": -0.0020000000000024
+        }, {
+            "documento": "10",
+            "tipo": "FC",
+            "ubicacion": "",
+            "r_iva": "",
+            "emision": "2010-06-30",
+            "vence": "2010-07-21",
+            "dias": "0",
+            "total": 175.801,
+            "devolucion": "",
+            "abono": "175.80",
+            "saldo": 0.00099999999997635
+        }, {
+            "documento": "11",
+            "tipo": "FC",
+            "ubicacion": "",
+            "r_iva": "",
+            "emision": "2010-07-08",
+            "vence": "2010-07-29",
+            "dias": "0",
+            "total": 382.29,
+            "devolucion": "",
+            "abono": "",
+            "saldo": 382.29
+        },
+        {
+            "documento": "12",
+            "tipo": "FC",
+            "ubicacion": "",
+            "r_iva": "",
+            "emision": "2010-07-13",
+            "vence": "2010-08-03",
+            "dias": "0",
+            "total": 64,
+            "devolucion": "",
+            "abono": "",
+            "saldo": 64
+        }, {
+            "documento": "13",
+            "tipo": "FC",
+            "ubicacion": "",
+            "r_iva": "",
+            "emision": "2010-07-24",
+            "vence": "2010-08-14",
+            "dias": "0",
+            "total": 64,
+            "devolucion": "",
+            "abono": "",
+            "saldo": 64
+        }]
+}

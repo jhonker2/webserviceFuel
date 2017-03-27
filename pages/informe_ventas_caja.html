@@ -1,0 +1,111 @@
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+
+         <div class="box box-info">
+                <div class="box-header">
+                   
+                    <button type="button" ng-disabled="peticionando" ng-click="ProcesarFinal()" class="btn btn-primary  pull-right" style="margin-left: 1em" ><i class="fa fa-bolt"></i></button>
+                </div>
+                <div class="box-body">
+                 
+                 <form class="form-horizontal"  id="form">
+                  <div class="box-body">
+                   
+                  <div class="form-group">
+                    <label for="codigo" class="col-sm-2 control-label">Fecha</label>
+                    <div class="input-group col-sm-10">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" id="reservation" value="">
+                    </div><!-- /.input group -->
+                  </div><!-- /.form group -->
+                  
+                 <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Tipo</label>
+                      <div class="col-sm-10">
+                      <select ng-model="tipo" class="form-control">
+                          <option ng-repeat="v in tipos" value="{{v.codigo}}" >{{v.nombre}}</option>
+                      </select>
+                      </div>
+                 </div>     
+               
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    
+                   <div class="table-responsive no-padding">
+                      <table class="table table-hover table-striped" ng-show="ptos.length>0">
+                                 
+                                          <tr style="background-color: #00C0EF">
+                                            <th>Factura #</th>
+                                            <th>Doc #</th>
+                                            <th>Cliente</th>
+                                            <th>Ventas_Iva</th>
+                                            <th>Ventas_0</th>
+                                            <th>SubTotal</th>
+                                            <th>Descuento</th>
+                                            <th style="text-align: right;">Iva</th>
+                                            <th style="text-align: right;">Total</th>
+                                            <th>Emision</th>
+                                            <th>Vence</th>
+                                            <th>Vendedor</th>
+                                            <th>Caja</th>
+                                        </tr>
+                                   
+                                        <tr data-ng-repeat="t in ptos">
+                                             <td>{{t.REFER}} </td>
+                                             <td>{{t.docu}} </td>
+                                             <td>{{t.cliente}} </td>
+                                             <td style="text-align: right;">{{t.sub_iva| number:4}} </td>
+                                             <td style="text-align: right;">{{t.sub_siva| number:4}} </td>
+                                             <td style="text-align: right;">{{t.sub_iva+t.sub_siva| number:4}} </td>
+                                             <td style="text-align: right;">{{t.descuento_iva+t.descuento_siva| number:4}} </td>
+                                             <td style="text-align: right;">{{t.iva| number:4}} </td>
+                                             <td style="text-align: right;">{{t.total| number:4}} </td>
+                                             <td style="width: 5.8em">{{t.emision | date:'dd-MM-yyyy'}} </td>
+                                             <td style="width: 5.8em">{{t.vence | date:'dd-MM-yyyy'}} </td>
+                                             <td>{{t.nombre}} </td>
+                                             <td>{{t.caja}} </td>
+                                        </tr>
+                                    
+                             </table>
+                   </div> 
+                      
+                  </div><!-- /.box-footer -->
+                </form>
+                    
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" ng-show="peticionando">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+      
+           
+      <script src="plugins/daterangepicker/daterangepicker.js"></script>    
+      <script type="text/javascript">
+      $(function () {
+          
+          var hoy=new Date();
+          var despues=hoy.setDate(hoy.getDate() + parseInt(localStorage.getItem("Dias")));
+          despues= new Date(despues).toLocaleString().split(",")[0]; 
+         
+          hoy=new Date().toLocaleString().split(",")[0];
+         
+         $('#reservation').daterangepicker();
+         $('#reservation').val(hoy+" - "+despues);
+         $('#reservation').data('daterangepicker').setStartDate(hoy);
+         $('#reservation').data('daterangepicker').setEndDate(despues);
+         
+         $('.breadcrumb').html('<li><i class="fa fa-black-tie"></i>Gerenciales</li>\n\
+                                <li><i class="fa fa-newspaper-o"></i>Informes</li>\n\
+                                <li>Ventas por Grupo</li>');
+        
+         $('.applyBtn').text('Aplicar');
+        $('.cancelBtn').text('Cancelar');
+        $('[for="daterangepicker_start"]').text('Desde');
+        $('[for="daterangepicker_end"]').text('Hasta');
+      });
+     </script>

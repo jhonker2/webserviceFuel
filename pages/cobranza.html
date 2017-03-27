@@ -1,0 +1,299 @@
+     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+     
+              <div class="box box-info">
+                <div class="box-header">
+                       <a class="btn btn-info pull-right" style="margin-left: 1em"  onclick="$('#myModalBusqueda').modal('show');" ><i class="fa fa-search" ></i></a>
+                      <button type="button" ng-click="Cancelar()" class="btn btn-primary  pull-right" style="margin-left: 1em" ng-show="facs.length>0"><i class="fa fa-save"></i></button>
+                     <a class="btn btn-success pull-right" style="margin-left: 1em" ng-click="Limpiar()"><i class="fa fa-file-o"></i></a>
+                    
+                  <h3 class="box-title" id="titulo">Cobros</h3>
+                </div>
+                <div class="box-body">
+                 
+                 <form class="form-horizontal"  id="form">
+                  <div class="box-body">
+                   
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Codigo</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="codigo" placeholder="Codigo"  ng-model="codigo" my-enter="Pagos()">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="barra" class="col-sm-2 control-label">Nombre</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="barra" placeholder="Nombre" ng-model="nombre" value="{{nombre}}" disabled>
+                      </div>
+                    </div>
+                      
+                <!------------------------------------------------------------------------------------------->  
+              <div class="box-footer table-responsive">
+                    
+                                <table class="table table-bordered  table-striped" ng-show="facs.length>0">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Tipo</th>
+                                            <th>#</th>
+                                            <th>Pagar</th>
+                                            <th>R.F</th>
+                                            <th>R.I</th>
+                                            <th>Emision</th>
+                                            <th>Vence</th>
+                                            <th>Dias</th>
+                                            <th>Total</th>
+                                            <th>Dev</th>
+                                            <th>Abono</th>
+                                            <th>Saldo</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="t in facs" >
+                                             <td>{{t.tipo}} </td>
+                                             <td>{{t.documento}} </td>
+                                             <td> <input data-p-id="{{$index}}" type="checkbox" ng-click="Pagar(this)"/> </td>
+                                             <td> <input data-rf-id="{{$index}}" type="checkbox" ng-disabled="(t.retencion!=''&&t.retencion>0)" ng-click="RF(this)"/> </td>
+                                             <td> <input data-ri-id="{{$index}}" type="checkbox" ng-disabled="(t.retencion!=''&&t.retencion>0)||t.piva<=0.00" ng-click="RI(this)"/></td>
+                                             <td>{{t.emision | date:'dd-MM-yyyy'}} </td>
+                                             <td>{{t.vence | date:'dd-MM-yyyy'}} </td>
+                                             <td>{{t.dias}} </td>
+                                             <td style="text-align: right;">{{t.total| number:4}} </td>
+                                             <td style="text-align: right;">{{t.devolucion| number:4}} </td>
+                                             <td style="text-align: right;">{{t.abono| number:4}} </td>
+                                             <td style="text-align: right;">{{t.saldo| number:4}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+              
+                <!------------------------------------------------------------------------------------------->      
+                              
+                      <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="Total" class="direct-chat-name badge bg-light-blue pull-right">{{Total()}}</span>
+                        <span class="direct-chat-timestamp pull-left ">Total</span>
+                      </div>
+                    
+                      <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="Devolucion" class="direct-chat-name badge bg-light-blue-active pull-right">{{Devolucion()}}</span>
+                        <span class="direct-chat-timestamp pull-left">Devolucion</span>
+                      </div>
+                
+                       <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="Abono" class="direct-chat-name badge bg-light-blue pull-right">{{Abono()}}</span>
+                        <span class="direct-chat-timestamp pull-left ">Abono</span>
+                      </div>
+                    
+                      <div class="direct-chat-info clearfix">
+                        <span  data-toggle="tooltip" title="Saldo" class="direct-chat-name badge bg-light-blue-active pull-right">{{Saldo()}}</span>
+                        <span class="direct-chat-timestamp pull-left">Saldo</span>
+                      </div>
+
+                    <!------------------------------------------------------------------------------------------->         
+
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                      
+                     <div class="row-border" > 
+                    
+                        <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                            <b>#Recibo: </b><span class="direct-chat-name badge bg-light-blue">{{num_recibo}}</span>
+                        </div> 
+                       
+                       <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                            <b>Entidad: </b><span class="direct-chat-name badge bg-light-blue">{{entidad}}</span>
+                       </div> 
+                       
+                       <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                         <div class="form-group">
+                            <label for="aplicacion" class="col-sm-2 control-label">Pago</label>
+                            <div class="col-sm-10">
+                                <select ng-model="forma" class="form-control" required>
+                                 <option ng-repeat="v in formas" value="{{v.codigo}}" ng-selected="forma_seleccionada==forma">{{v.formapago}}</option>
+                                </select>
+                            </div>
+                        </div>  
+                       </div> 
+                       
+                       <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                        <div class="form-group">
+                            <label for="aplicacion" class="col-sm-2 control-label">Banco</label>
+                            <div class="col-sm-10">
+                                <select ng-model="banco" class="form-control" required>
+                                 <option ng-repeat="v in bancos" value="{{v.codigo}}" ng-selected="banco_seleccionado==banco">{{v.banco}}</option>
+                                </select>
+                            </div>
+                        </div>  
+                       </div> 
+                    
+                   </div>
+                      
+                     <div class="row-border" > 
+                    
+                       <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                         <b>Ret. Fuente: </b><span class="direct-chat-name badge bg-light-blue">{{ret_fuente}}</span>
+                       </div> 
+                       
+                       <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                         <b>Ret. Iva: </b><span class="direct-chat-name badge bg-light-blue">{{ret_iva}}</span>
+                       </div> 
+                         
+                         
+                        <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                            <div class="form-group">
+                                 <label for="codigo" class="col-sm-2 control-label">Desc.</label>
+                                 <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="codigo" placeholder="Descuento"  ng-model="descuento">
+                                </div>
+                            </div>
+                        </div> 
+                       
+                       <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top: 0.5em;">  
+                           <div class="form-group">
+                                 <label for="codigo" class="col-sm-2 control-label">Valor</label>
+                                 <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="codigo" placeholder="Valor"  ng-model="valor" >
+                                </div>
+                            </div>
+                       </div> 
+                       
+                   </div> 
+                      
+                     <div class="row-border">
+                 
+                         <div class="col-xs-12 col-sm-6 col-md-4">
+                              <div class="form-group">
+                                 <label for="codigo" class="col-sm-2 control-label">Cuenta</label>
+                                 <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="codigo" placeholder="Cuenta"  ng-model="cuenta">
+                                </div>
+                             </div>
+                         </div>
+                         
+                         <div class="col-xs-12 col-sm-6 col-md-4">
+                              <div class="form-group">
+                                 <label for="codigo" class="col-sm-2 control-label">Numero</label>
+                                 <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="codigo" placeholder="Numero"  ng-model="numero">
+                                </div>
+                             </div>
+                         </div>
+                         
+                         <div class="col-xs-12 col-sm-12 col-md-4">
+                                 <div class="form-group">
+                                     <div class="input-group">
+                                             <div class="input-group-addon">
+                                                 <i class="fa fa-calendar"></i>
+                                             </div>
+                                             <input type="text" class="form-control pull-right" id="reservation" value="">
+                                     </div><!-- /.input group -->
+                                 </div><!-- /.form group -->    
+                         </div>
+                         
+                    </div>
+                      
+                  </div><!-- /.box-footer -->
+                </form>
+                    
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" style='visibility: hidden'>
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+              
+         <div class="modal fade" id="myModalBusqueda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog" style="width: 80%">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Buscar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                        <div class="box-body">
+ 
+                   
+                        <div class="box box-info">
+                            <div class="box-header">
+                                
+                            </div>
+                                  <div class="box-body">    
+                                         <div class="input-group">
+                                            <span class="input-group-addon" ng-click="Buscar()"><i class="fa fa-search"></i></span>
+                                             <input type="text" class="form-control" placeholder="Nombre" ng-model="nombre_busqueda" my-enter="Buscar()"/>
+                                         </div>
+                              
+                                             <form class="form-horizontal" style="margin-top: 1em">
+                  
+                         
+                  
+                            <div class="box-footer table-responsive">
+                    
+                                <table class="table table-bordered  table-striped">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cedula</th>
+                                            <th>Codigo</th>
+                                            <th style="width: 25em">Nombre</th>
+                                            <th style="width: 25em">Direccion</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in productos" ng-click="Establecer(t);">
+                                             <td>{{t.cedula_ruc}} </td>
+                                             <td>{{t.codigo}} </td>
+                                             <td style="width: 25em">{{t.nombre}} </td>
+                                             <td style="width: 25em">{{t.direccion1}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </form>
+                            
+                                  </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay" ng-style="peticionando?{ 'visibility': 'visible' } : { 'visibility': 'hidden' }">
+                                 <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                <!-- end loading -->
+                        </div>
+                            
+                        </div><!-- /.box-body -->
+                         
+                      </div>
+                  </div>
+              </div>
+          </div>  
+        
+
+        <script type="text/javascript">
+                  
+                  
+          var hoy=new Date();
+          var despues=hoy.setDate(hoy.getDate() + parseInt(localStorage.getItem("Dias")));
+          despues= new Date(despues).toLocaleString().split(",")[0]; 
+         
+          hoy=new Date().toLocaleString().split(",")[0];
+         
+         $('#reservation').daterangepicker();
+         $('#reservation').val(hoy+" - "+despues);
+         $('#reservation').data('daterangepicker').setStartDate(hoy);
+         $('#reservation').data('daterangepicker').setEndDate(despues);
+         
+                  $('.breadcrumb').html('<li><i class="fa fa-cc-visa"></i>Cartera</li>\n\
+                                         <li><i class="fa fa-thumbs-o-up"></i>Cuentas por Cobrar</li>\n\
+                                         <li>Registro de Cobros</li>');
+    
+        $('.applyBtn').text('Aplicar');
+        $('.cancelBtn').text('Cancelar');
+        $('[for="daterangepicker_start"]').text('Desde');
+        $('[for="daterangepicker_end"]').text('Hasta');
+    
+        </script>

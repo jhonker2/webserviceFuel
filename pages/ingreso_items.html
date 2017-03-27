@@ -1,0 +1,306 @@
+    
+              <div class="box box-info">
+                <div class="box-header">
+                     <a class="btn btn-info pull-right" style="margin-left: 1em" onclick="$('#myModalBusqueda').modal('show');"><i class="fa fa-search"></i></a>
+                      <a class="btn btn-danger pull-right" style="margin-left: 1em" ng-show="editando" onclick="$('#myModal').modal('show');" ><i class="fa fa-remove" ></i></a>
+                      <button type="button" ng-click="Guardar()" class="btn btn-primary  pull-right" style="margin-left: 1em"><i class="fa fa-save"></i></button>
+                      <a class="btn btn-success pull-right" style="margin-left: 1em" ng-click="Limpiar()"><i class="fa fa-file-o"></i></a>
+                  <h3 class="box-title">Item</h3>
+                </div>
+                <div class="box-body">
+                 
+                 <form class="form-horizontal" ng-submit="Guardar()"id="form">
+                  <div class="box-body">
+                   
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Codigo</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="codigo" placeholder="Codigo" disabled ng-model="codigo">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="barra" class="col-sm-2 control-label">Barra</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="barra" placeholder="Barra" ng-model="barra">
+                      </div>
+                    </div>
+                      
+                      
+                    <div class="form-group">
+                      <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="descripcion" placeholder="Descripcion" ng-model="descripcion" required>
+                      </div>
+                    </div>
+                      
+                      
+                    <div class="form-group">
+                      <label for="referencia" class="col-sm-2 control-label">Referencia</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="referencia" placeholder="Referencia" ng-model="referencia">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Aplicacion</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="aplicacion" placeholder="Aplicacion" ng-model="aplicacion">
+                      </div>
+                    </div>
+                      
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Grupo</label>
+                      <div class="col-sm-10">
+                          <select ng-model="grupo" class="form-control"  required>
+                         <option ng-repeat="v in grupos_productos" value="{{v.codigo}}" ng-selected="grupo_seleccionado==v.codigo">{{v.grupo}}</option>
+                      </select>
+                      </div>
+                    </div>
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Linea</label>
+                      <div class="col-sm-10">
+                      <select ng-model="linea" class="form-control" >
+                         <option ng-repeat="v in lineas" value="{{v.codigo}}" ng-selected="linea_seleccionada==v.codigo">{{v.linea}}</option>
+                      </select>
+                      </div>
+                    </div>  
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Marca</label>
+                      <div class="col-sm-10">
+                      <select ng-model="marca" class="form-control" required>
+                         <option ng-repeat="v in marcas" value="{{v.codigo}}" ng-selected="marca_seleccionada==v.codigo">{{v.marca}}</option>
+                      </select>
+                      </div>
+                    </div> 
+                        
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Medida</label>
+                      <div class="col-sm-10">
+                      <select ng-model="medida" class="form-control" required>
+                         <option ng-repeat="v in medidas" value="{{v.codigo}}" ng-selected="medida_seleccionada==v.codigo">{{v.medida}}</option>
+                      </select>
+                      </div>
+                    </div>
+                      
+                      
+                   <div class="form-group">
+                       <label for="costo" class="col-sm-2 control-label">Costo</label>
+                      <div class="col-sm-10">
+                          <input numeric decimals="{{decimales}}" id="costo" min="0" placeholder="Costo" ng-model="costo" ng-change="CambioCosto()" required>
+                      </div>
+                    </div>  
+                      
+                         
+                   <div class="form-group">
+                       <label for="aplicacion" class="col-sm-2 control-label">Costo con iva {{valor_iva}}</label>
+                      <div class="col-sm-10">
+                        <div class="checkbox">
+                          <label>
+                              <input type="checkbox" ng-model="iva" ng-checked="isIva" ng-change="CambioIva()"> Iva
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                      
+                   <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">% 1</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo" placeholder="Porciento 1" ng-model="porciento1"  ng-change="Porciento_Precio1()" required>
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">Precio 1</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Precio 1" ng-model="precio1"  ng-change="Precio_Porciento1()" required>
+                      </div>
+                    </div>
+                   
+                   <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">% 2</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Porciento 2" ng-model="porciento2" ng-change="Porciento_Precio2()" required>
+                      </div>
+                    </div>  
+                      
+                     <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">Precio 2</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Precio 2" ng-model="precio2" ng-change="Precio_Porciento2()" required>
+                      </div>
+                    </div>
+                   
+                     <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">% 3</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Porciento 3" ng-model="porciento3" ng-change="Porciento_Precio3()" required>
+                      </div>
+                    </div>   
+                    
+                      <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">Precio 3</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Precio 3" ng-model="precio3" ng-change="Precio_Porciento3()" required>
+                      </div>
+                    </div>
+                   
+                  
+                    <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">% 4</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Porciento 4" ng-model="porciento4" ng-change="Porciento_Precio4()" required>
+                      </div>
+                    </div>    
+                      
+                     <div class="form-group">
+                      <label for="costo" class="col-sm-2 control-label">Precio 4</label>
+                      <div class="col-sm-10">
+                        <input numeric decimals="{{decimales}}" class="form-control" id="costo"  placeholder="Precio 4" ng-model="precio4" ng-change="Precio_Porciento4()" required>
+                      </div>
+                    </div>
+                   
+                  
+                      
+                      
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                     
+                  </div><!-- /.box-footer -->
+                </form>
+                    
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" style='visibility: hidden'>
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+              
+          <div class="modal fade" id="myModalBusqueda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog" style="width: 80%">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Buscar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                        <div class="box-body">
+ 
+                   
+                        <div class="box box-info">
+                            <div class="box-header">
+                                
+                            </div>
+                                  <div class="box-body">    
+                                         <div class="input-group">
+                                            <span class="input-group-addon" ng-click="Buscar()"><i class="fa fa-search"></i></span>
+                                             <input type="text" class="form-control" placeholder="Nombre" ng-model="nombre_busqueda" my-enter="Buscar()" />
+                                         </div>
+                              
+                                             <form class="form-horizontal" style="margin-top: 1em">
+                  
+                            <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Dato</label>
+                      <div class="col-sm-10">
+                      <select ng-model="criterio" class="form-control" required>
+                          <option ng-repeat="v in grupos" value="{{v.codigo}}" ng-selected="criterio_seleccionado==criterio">{{v.nombre}}</option>
+                      </select>
+                      </div>
+                    </div>
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Ubicacion</label>
+                      <div class="col-sm-10">
+                      <select ng-model="ubicacion" class="form-control" required>
+                          <option ng-repeat="v in ubicaciones" value="{{v.codigo}}" ng-selected="ubicacion_seleccionada">{{v.ubicacion}}</option>
+                      </select>
+                      </div>
+                    </div>  
+                  
+                            <div class="box-footer table-responsive">
+                    
+                                <table class="table table-bordered  table-striped">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cod</th>
+                                            <th>Exist</th>
+                                            <th>Barra</th>
+                                            <th style="width: 25em">Descripcion</th>
+                                            <th>Precio 1</th>
+                                            <th>Precio 2</th>
+                                            <th>Precio 3</th>
+                                            <th>Precio 4</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in productos" ng-click="Establecer(t);">
+                                             <td>{{t.codigo}} </td>
+                                             <td>{{t.existencia|number:0}} </td>
+                                             <td>{{t.codigo_barra}} </td>
+                                             <td style="width: 25em">{{t.descripcion1}} </td>
+                                             <td>{{t.pvp1| number:4}} </td>
+                                             <td>{{t.pvp2| number:4}} </td>
+                                             <td>{{t.pvp3| number:4}} </td>
+                                             <td>{{t.pvp4| number:4}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </form>
+                            
+                                  </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay" ng-style="peticionando?{ 'visibility': 'visible' } : { 'visibility': 'hidden' }">
+                                 <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                <!-- end loading -->
+                        </div>
+                            
+                        </div><!-- /.box-body -->
+                         
+                      </div>
+                  </div>
+              </div>
+          </div>      
+        
+
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          
+                          <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                              <div class="box-body">
+                                 <h3> Desea eliminar este Item?</h3>
+                                 
+                              </div><!-- /.box-body -->
+                         
+                      </div>
+                      <div class="modal-footer">
+                         
+                          <button type="button" ng-click="Eliminar()" class="btn btn-success"  data-dismiss="modal"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Eliminar</button>
+
+
+                          <button type="button" class="btn btn-success" style="background-color: #00C0EF" data-dismiss="modal"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Cancelar</button>
+
+                      </div>
+                  </div>
+              </div>
+        </div>
+
+         <script type="text/javascript">
+                  $('.breadcrumb').html('<li><i class="fa fa-archive"></i>Inventario</li>\n\
+                                         <li><i class="fa fa-exchange"></i>Movimientos</li>\n\
+                                         <li>Ingreso de Items</li>');
+              </script>    

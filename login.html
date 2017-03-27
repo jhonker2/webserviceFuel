@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html ng-app="miAp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Genesis WEB</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+   
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="hold-transition login-page" ng-controller="ControladorLoggin">
+    <div class="login-box">
+      <div class="login-logo">
+        <a><b>Genesis</b>WEB</a>
+      </div><!-- /.login-logo -->
+      <div class="login-box-body">
+        <p class="login-box-msg">Inicie Sesion</p>
+            <form  ng-submit="Procesar()">
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Usuario" required ng-model="nombre">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                         <input type="password" class="form-control" placeholder="Clave" required ng-model="clave">
+                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                          
+                    <div class="form-group" >
+                      <label>Empresa</label>
+                      <select ng-model="enterprise" class="form-control" required>
+                         <option ng-repeat="v in empresas" value="{{v.codigo}}" ng-selected="empresa_seleccionada==v.codigo">{{v.empresa}}</option>
+                      </select>
+                    </div>
+                          
+                    <div class="row" style="text-align: center">
+                     <button type="submit" class="btn btn-primary">Ingresar</button>
+                     <a class="btn btn-info" style="margin-left: 1em" onclick="$('#myModal').modal('show');" ><i class="fa fa-laptop" ></i></a>
+                    </div>
+                 </form>
+
+    
+      </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+
+    
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Direccion</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                              <div class="box-body">
+                                 <div class="form-group">
+                                    <label>IP:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon" ng-click="Establecer()">
+                                             <i class="fa fa-laptop"></i>
+                                        </div>
+                                        <input type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask ng-model="ip">
+                                    </div><!-- /.input group -->
+                                 </div><!-- /.form group -->
+                                
+                              </div><!-- /.box-body -->
+                         
+                      </div>
+                    
+                  </div>
+              </div>
+        </div>
+    
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    
+    <script src="./plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="./plugins/input-mask/jquery.inputmask.numeric.extensions.js"></script>
+    <script src="./plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    
+    <script type="text/javascript">
+    $(function () {
+      $("[data-mask]").inputmask(); 
+     
+    });
+    
+    </script>
+    <script src="dist/js/angular/angular.min.js"></script>
+    <script type="text/javascript">
+        
+        angular.module('miAp',[])
+        .service('Herramientas',[function(){
+ 
+          this.Notificar=function(mensaje)
+          {
+               if (!("Notification" in window)) 
+                        {
+                            alert(mensaje);
+                        }
+
+                        // Let's check if the user is okay to get some notification
+                        else if (Notification.permission === "granted") 
+                        {
+                            // If it's okay let's create a notification
+                            var notification = new Notification(mensaje,{icon:'./img/success.png' });
+                            notification.onshow = function () 
+                            { 
+                                setTimeout(notification.close.bind(notification), 3000); 
+                            }
+                        }
+
+                             // Otherwise, we need to ask the user for permission
+                            // Note, Chrome does not implement the permission static property
+                            // So we have to check for NOT 'denied' instead of 'default'
+                     else if (Notification.permission !== 'denied') 
+                     {
+                       Notification.requestPermission(function (permission) 
+                       {
+                        // If the user is okay, let's create a notification
+                         if (permission === "granted") 
+                         {
+                            var notification = new Notification(mensaje,{icon:'./img/error.png' });
+                            notification.onshow = function () 
+                            { 
+                                setTimeout(notification.close.bind(notification), 3000); 
+                            }
+                         }
+                       });
+                     }
+           };
+    
+   }])
+   .controller('ControladorLoggin',['$scope','$http','Herramientas',function($scope,$http,Herramientas){
+     $scope.nombre="";
+     $scope.clave=""; 
+     $scope.empresas=[];
+     $scope.peticionando=false;
+     
+     $scope.empresa_seleccionada;
+     
+     $scope.ip=localStorage.getItem("ip");
+     $scope.nombre=localStorage.getItem("usuario");
+     
+     
+      $scope.Establecer=function()
+      {
+          localStorage.setItem("ip",$scope.ip.replace("_",""));
+          $('#myModal').modal('hide');
+      };
+     
+      $scope.Empresas=function()
+     {
+       $http.get('controlador/EmpresaController.php').success(function (res)
+       {
+           if(Object.prototype.toString.call(res.data) === '[object Array]')
+           {
+               $scope.empresas=res.data;
+               $scope.empresa_seleccionada=localStorage.getItem("empresa");
+               $scope.enterprise=localStorage.getItem("empresa");
+           }
+            else
+            Herramientas.Notificar('Error al buscar');     
+       }).
+        error(function (data, status, headers, config)
+        {
+          if(status===404)
+            Herramientas.Notificar('Servidor no encontrado');
+        });
+     };
+     
+      $scope.Procesar=function()
+     {
+         $scope.peticionando=true;
+        
+       $http.get('controlador/LoginController.php?usuario='+$scope.nombre+'&clave='+$scope.clave+'&empresa='+$scope.enterprise).success(function (res)
+       {
+           if(Object.prototype.toString.call(res.data) === '[object Array]')
+           {
+             if(res.data.length>0)  
+             {
+                 
+                  $scope.empresas.forEach(function(a){
+                      if(a.codigo==$scope.enterprise)
+                          localStorage.setItem("nombre_empresa",a.empresa);
+                  });
+                 
+                 localStorage.setItem("empresa",$scope.enterprise);   
+                 localStorage.setItem("usuario",$scope.nombre); 
+                 GuardarParametros(res.data);
+                 location.href="php/autenticacion.php?usuario="+$scope.nombre;
+             }
+            else
+            Herramientas.Notificar('Login incorrecto'); 
+           }
+           else
+            Herramientas.Notificar('Error al buscar');   
+            
+             $scope.peticionando=false;
+       }).
+        error(function (data, status, headers, config)
+        {
+          if(status===404)
+            Herramientas.Notificar('Servidor no encontrado');
+        
+           $scope.peticionando=false;
+        });
+     };
+     
+     
+     function  GuardarParametros(parametros)
+     {
+         
+         parametros.forEach(function(item) 
+         {
+              if(item.codigo=="2")
+                       localStorage.setItem("Bodega", item.parametro);
+                    else
+                    if(item.codigo=="3")
+                        localStorage.setItem("Precio", item.parametro);
+                    else
+                    if(item.codigo=="17")
+                        localStorage.setItem("IVA", item.parametro);
+                    else
+                    if(item.codigo=="20")
+                        localStorage.setItem("Cliente", item.parametro);
+                    else
+                    if(item.codigo=="243")
+                        localStorage.setItem("Dias", item.parametro);
+                    else
+                    if(item.codigo=="39")
+                        localStorage.setItem("Stock", item.parametro);
+                    else
+                    if(item.codigo=="214")
+                        localStorage.setItem("Caja", item.parametro);
+                    else
+                    if(item.codigo=="66")
+                        localStorage.setItem("Vendedor", item.parametro);
+                    else
+                    if(item.codigo=="9000")
+                        localStorage.setItem("Decimales", item.parametro);
+                    else
+                    if(item.codigo=="9001")
+                        localStorage.setItem("DecimalesCantidad", item.parametro);
+                    else
+                    if(item.codigo=="81")
+                        localStorage.setItem("PorcentajeRetencionFuente", item.parametro);
+                    else
+                    if(item.codigo=="79")
+                        localStorage.setItem("PorcentajeRetencionIva", item.parametro);
+                    else
+                    if(item.codigo=="9002")
+                        localStorage.setItem("Cupo", item.parametro);
+                    else
+                    if(item.codigo=="9006")
+                        localStorage.setItem("EstadoFactura", item.parametro);
+                    else
+                        localStorage.setItem("Cantidad", item.parametro); 
+         });
+         
+     };
+     
+    
+    
+    
+     $scope.Empresas();
+  }
+  ]);
+        
+    </script>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+    
+              <div class="box box-info">
+                <div class="box-header">
+                      <a class="btn btn-info pull-right" style="margin-left: 1em" onclick="$('#myModalBusqueda').modal('show');"><i class="fa fa-search"></i></a>
+                      <a class="btn btn-danger pull-right" style="margin-left: 1em" ng-show="editando" onclick="$('#myModal').modal('show');" ><i class="fa fa-remove" ></i></a>
+                      <button ng-click="Guardar()" type="button" class="btn btn-primary  pull-right" style="margin-left: 1em"><i class="fa fa-save"></i></button>
+                      <a class="btn btn-success pull-right" style="margin-left: 1em" ng-click="Limpiar()"><i class="fa fa-file-o"></i></a>
+                  <h3 class="box-title">Cliente</h3>
+                </div>
+                <div class="box-body">
+                 
+                 <form class="form-horizontal" ng-submit="Guardar()" id="form">
+                  <div class="box-body">
+                   
+                    <div class="form-group">
+                      <label for="codigo" class="col-sm-2 control-label">Codigo</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="codigo" placeholder="Codigo" disabled ng-model="codigo" >
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="barra" class="col-sm-2 control-label">Cedula</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="barra" placeholder="Cedula" ng-model="cedula" required my-enter="PorCedula()">
+                      </div>
+                    </div>
+                      
+                      
+                    <div class="form-group">
+                      <label for="descripcion" class="col-sm-2 control-label">Nombre</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="descripcion" placeholder="Descripcion" ng-model="nombre" required>
+                      </div>
+                    </div>
+                      
+                      
+                    <div class="form-group">
+                      <label for="referencia" class="col-sm-2 control-label">Direccion</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control" id="referencia" placeholder="Direccion" ng-model="direccion">
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Telefono</label>
+                      <div class="col-sm-10">
+                          <input type="tel" class="form-control" id="aplicacion" placeholder="Telefono" ng-model="telefono">
+                      </div>
+                    </div>
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Email</label>
+                      <div class="col-sm-10">
+                          <input type="email" class="form-control" id="aplicacion" placeholder="Email" ng-model="email">
+                      </div>
+                    </div>
+                      
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Vendedor</label>
+                      <div class="col-sm-10">
+                      <select ng-model="vendedor" class="form-control" required>
+                         <option ng-repeat="v in vendedores" value="{{v.codigo}}" ng-selected="vendedor_seleccionado==v.codigo">{{v.nombre}}</option>
+                      </select>
+                      </div>
+                    </div> 
+                        
+                   <div class="form-group">
+                      <label for="aplicacion" class="col-sm-2 control-label">Zona</label>
+                      <div class="col-sm-10">
+                      <select ng-model="zona" class="form-control" required>
+                         <option ng-repeat="v in zonas" value="{{v.codigo}}" ng-selected="zona_seleccionada==v.codigo">{{v.zona}}</option>
+                      </select>
+                      </div>
+                    </div>
+                         
+                
+                      
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    
+                  </div><!-- /.box-footer -->
+                </form>
+                    
+                    
+                </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <div class="overlay" id="bloqueForm" style='visibility: hidden'>
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- end loading -->
+              </div><!-- /.box -->
+            
+              
+          <div class="modal fade" id="myModalBusqueda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog" style="width: 80%">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Buscar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                        <div class="box-body">
+ 
+                   
+                        <div class="box box-info">
+                            <div class="box-header">
+                                
+                            </div>
+                                  <div class="box-body">    
+                                         <div class="input-group">
+                                            <span class="input-group-addon" ng-click="Buscar()"><i class="fa fa-search"></i></span>
+                                             <input type="text" class="form-control" placeholder="Nombre" ng-model="nombre_busqueda" my-enter="Buscar()" />
+                                         </div>
+                              
+                                             <form class="form-horizontal" style="margin-top: 1em">
+                  
+                         
+                  
+                            <div class="box-footer table-responsive">
+                    
+                                <table class="table table-bordered  table-striped">
+                                    <thead style="background-color: #00C0EF">
+                                         <tr>
+                                            <th>Cedula</th>
+                                            <th>Codigo</th>
+                                            <th style="width: 25em">Nombre</th>
+                                            <th style="width: 25em">Direccion</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr data-ng-repeat="t in productos" ng-click="Establecer(t);">
+                                             <td>{{t.cedula_ruc}} </td>
+                                             <td>{{t.codigo}} </td>
+                                             <td style="width: 25em">{{t.nombre}} </td>
+                                             <td style="width: 25em">{{t.direccion1}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </form>
+                            
+                                  </div><!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay" ng-style="peticionando?{ 'visibility': 'visible' } : { 'visibility': 'hidden' }">
+                                 <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                <!-- end loading -->
+                        </div>
+                            
+                        </div><!-- /.box-body -->
+                         
+                      </div>
+                  </div>
+              </div>
+          </div>      
+        
+
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #00C0EF">
+                          
+                          <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+                      </div>
+                      <div class="modal-body">
+                         
+                              <div class="box-body">
+                                 <h3> Desea eliminar este Cliente?</h3>
+                                 
+                              </div><!-- /.box-body -->
+                         
+                      </div>
+                      <div class="modal-footer">
+                         
+                          <button type="button" ng-click="Eliminar()" class="btn btn-success"  data-dismiss="modal"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Eliminar</button>
+
+
+                          <button type="button" class="btn btn-success" style="background-color: #00C0EF" data-dismiss="modal"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Cancelar</button>
+
+                      </div>
+                  </div>
+              </div>
+        </div>
+              <script type="text/javascript">
+         $('.breadcrumb').html('<li><i class="fa fa-cc-visa"></i>Cartera</li>\n\
+                                <li><i class="fa fa-thumbs-o-up"></i>Cuentas por Cobrar</li>\n\
+                                <li>Cliente</li>');   
+    </script>
